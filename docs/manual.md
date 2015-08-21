@@ -353,8 +353,8 @@ screen holes.
 
 At the extreme end of space over speed is the Applesoft ROM routine -- HGR
 or "CALL 62454" -- which only needs about 30 bytes for its main loop, but
-takes (8192*33)+(12*64)+17 = 271121 cycles for black or white, or
-(8192*40)+(12*64)+17 = 328465 cycles for green/purple/blue/orange --
+takes (8192 * 33)+(12 * 64)+17 = 271121 cycles for black or white, or
+(8192 * 40)+(12 * 64)+17 = 328465 cycles for green/purple/blue/orange --
 7-8x slower than our preferred implementation.
 
 The screen clear is wired to a specific hi-res page, so the SetPage
@@ -598,7 +598,7 @@ and then created a list of line segments using the vertex indices:
   HPLOT #0 TO #3  
   HPLOT #1 TO #2  
 
-This requires (4*2) + (6*2) = 20 bytes, for a small savings.  The real
+This requires (4 * 2) + (6 * 2) = 20 bytes, for a small savings.  The real
 value in the approach is that it separates the description of the shape
 from the placement of the points.  For example, if you want to change
 vertex #0 to (CX-7,CY-12), you don't have to make changes two three
@@ -961,7 +961,7 @@ got overwritten by the JMP.)
 With this change we're working at 5 cycles per byte, plus the loop
 overhead.  A full-screen FillRect will be about as fast as a Clear.
 
-There are a couple of down sides.  First, you need 192*3=576 bytes to
+There are a couple of down sides.  First, you need 192 * 3=576 bytes to
 hold this pile of store instructions.  If you're drawing a lot of filled
 rectangles, though, the 2x speed improvement would make the size penalty
 worthwhile.  The other problem arises if you use double-buffered animation,
