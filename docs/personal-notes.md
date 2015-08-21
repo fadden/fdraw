@@ -82,7 +82,7 @@ posting.  I had focused on filled circles, rather than outline circles,
 since that seemed like a more interesting challenge.  The "fdraw" demo
 supported fast rendering of filled circles, filled rectangles, and had
 a very fast screen clear.  A week later, after a bit of cleanup, I
-[https://groups.google.com/d/msg/comp.sys.apple2.programmer/Un4pV5p8Elw/6qZVAPc_da0J](released the fdraw v0.2 sources).
+[released the fdraw v0.2 sources](https://groups.google.com/d/msg/comp.sys.apple2.programmer/Un4pV5p8Elw/6qZVAPc_da0J).
 
 It occurred to me at the time that this would be a handy place to stick
 the hi-res line drawing code I'd always wanted to write.  Somewhere around
@@ -91,7 +91,7 @@ graphics compression program.
 
 Fast forward another nine years, to 2015.  After learning about the LZ4
 format, I went back to my data compression roots and wrote
-[https://github.com/fadden/fhpack](fhpack) and some demos.  I had so much
+[fhpack](https://github.com/fadden/fhpack) and some demos.  I had so much
 fun doing it that I decided it was finally time to write some hi-res
 line drawing code.
 
