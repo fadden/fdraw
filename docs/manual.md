@@ -26,9 +26,8 @@ speed, one that reduces size.
 - [Building the Code](#building)
 - [Apple II Hi-res in a Nutshell](#nutshell)
 - [Notes on the Drawing Functions](#notes)
-- [General Notes](#additional-notes)
 - [Enhancement Ideas](#ideas)
-- [My Quest for Lines](#history)
+- [Additional Notes](#additional-notes)
 
 
 <div id='amperapi'/>
