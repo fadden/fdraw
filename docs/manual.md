@@ -691,6 +691,12 @@ Some of the inner loops are almost certainly paying an extra cycle to
 cross a page boundary.  That's not easy to fix without adding absurd
 amounts of padding.
 
+The core FillRaster unrolled loop works for color or black & white,
+but the latter doesn't require bit-flipping for odd/even bytes.  Having
+a second loop would allow 8 cycles per byte rather than 10 when the
+color is black or white, and would avoid the overhead incurred by
+color changes (which must rewrite the EORs), for a cost of ~120 bytes.
+
 "USE_FAST" could be applied more aggressively to reduce the size.
 
 Having "fast" vs. "small" builds was mostly an experiment to see how
