@@ -184,10 +184,11 @@ I had forgotten how much fun this stuff is.  Working in ARM assembly
 language on Android offered similar challenges, but you're never entirely
 sure exactly how your code will perform on the wide range of CPU
 architectures (affecting instruction interleave, cache size and
-replacement policy, etc.), you have to guess at cache misses and the
-success rate of data prefetching, and it's difficult to measure results when
-there's multiple threads running and interrupts firing.  On the Apple II
-you can count every cycle, and know exactly what will happen when.
+replacement policy, branch prediction, etc.), you have to guess at cache
+misses and the success rate of data prefetching, and it's difficult to
+measure results when there's multiple threads running and interrupts firing.
+On the Apple II you can count every cycle, and know exactly what will
+happen when.
 
 I don't expect that anyone will find the code useful, but that wasn't
 really the point.
