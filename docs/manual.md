@@ -476,8 +476,20 @@ handled as a trivial FillRaster call, which at peak performance can write
 7 pixels in 10 cycles.
 
 This is about as fast as you can get with the Bresenham run-length
-algorithm and Applesoft-style color handling.  It's possible to go faster
-by switching to a different pixel style, or using a run-slice approach.
+algorithm and Applesoft-style color handling.
+
+It's possible to go faster by switching to a different pixel style, or
+using the run-slice approach.  Drawing the line toward the center from
+both ends is likely a losing proposition due to the small number of
+registers on the 6502, and is tricky when rendering in color because of
+the need to keep the high bit set.  (fdraw keeps the line number and
+byte offset in the X/Y registers, and always draws left to right to
+make the bit-shifting simpler; neither of these would be possible if we
+plotted from both ends).  Employing Wu and Rockne's double-step
+algorithm (see e.g. Wyvill's article in Graphics Gems, page 101) should
+offer some improvement over the basic algorithm, as it computes two
+successive pixels at each step, creating an opportunity to set two
+bits with a single store.
 
 
 ### Rectangles ###
