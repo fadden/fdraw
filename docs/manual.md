@@ -491,6 +491,18 @@ offer some improvement over the basic algorithm, as it computes two
 successive pixels at each step, creating an opportunity to set two
 bits with a single store.
 
+Unrolling the loops is impractical because of the number of
+instructions in the core loop, with one exception: pure-vertical lines
+would only need about 20 bytes per loop.  By creating 8 instances, we
+can replace the line base address lookup with a simple `ADC #$04` for
+7 out of 8 iterations, saving 8 cycles per pixel.  For maximum effect
+we'd need a "finishing" loop at the end, and a branch table to jump into
+the middle of the unrolled code at the start, for a total cost of around
+200 bytes (less if we're not drawing Applesoft-style lines).  The cost
+would be justified for a game like Stellar 7 where the view does not roll,
+which means vertical lines (such as those on obstacle cubes) will
+always be vertical.
+
 
 ### Rectangles ###
 
