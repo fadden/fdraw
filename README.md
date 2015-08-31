@@ -20,7 +20,10 @@ A video of the demos running in the AppleWin emulator
 [is available](https://www.youtube.com/watch?v=z2RFGVoaROE).
 
 Learn more about how fdraw works in the
-[library documentation](docs/manual.md).
+[library documentation](docs/manual.md).  In addition to documenting the
+API, it provides an overview of Apple II graphics, an assessment of the
+performance of each of the routines, and some ideas on how the speed
+could be increased (usually by spending more memory).
 
 Learn about the demos in the [demo documentation](docs/demos.md).
 
