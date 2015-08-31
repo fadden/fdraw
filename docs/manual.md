@@ -584,6 +584,12 @@ The rendering of filled circles is very fast, though there is a possibility
 of optimizing the center-fill of large circles.  Outline circles were
 added by inserting JSR PLOT at key points, and could perhaps be faster.
 
+The best way to accelerate circle drawing is to not draw a full circle.
+Instead, draw an approximation of a circle using a series of lines.  This
+is a common technique when using 3D graphics hardware, as they are
+generally geared toward polygon rendering.  Outline circles would see a
+significant improvement, with some reduction in quality.
+
 
 ### Drawing Lines with Indexed Byte-Arrays ###
 
