@@ -13,13 +13,13 @@ mention that I was 11 years old in 1980.)
 Battlezone had a dedicated matrix processor (the "math box"), and a
 vector display that handled the line drawing.  The Apple II had neither
 of those things, which meant that achieving the same level of performance
-and graphical detail weren't possible.  Despite those shortcomings, Damon
+and graphical detail wasn't possible.  Despite those shortcomings, Damon
 Slye create a pretty solid Battlezone-ish game in 1983, called Stellar 7.
 A couple of years later, Braben and Bell made another compelling wireframe
-combat game, the space combat sim Elite.  (The A2-FS1 flight simulator
+combat game, the space sim Elite.  (The A2-FS1 flight simulator
 came out much earlier, but the graphics were blinky, enemies were just
 dots, and the action was much slower-paced.  Of course, it loaded from
-cassette tape and ran in 16KB, so they didn't have much choice.)
+cassette tape and ran in 16KB, so they didn't have much to work with.)
 
 Seeing these games showed me that the problems could be solved.  I decided
 that the place to start was line drawing, because (a) line drawing is
@@ -43,7 +43,7 @@ encountered the shift-and-subtract approach yet.)  So if you initialize a
 counter to zero, and add 6 to it each time you move horizontally, then when
 it reaches 20 you know it's time to move vertically.  Subtracting 20 from
 the counter resets it, but retains the division remainder as the starting
-point, so you retain the fractional part.
+point, so you don't lose the fractional part.
 
 When I went to college I took a graphics class, and was introduced to
 Bresenham's classic line algorithm.  This was essentially the same as what
@@ -52,8 +52,9 @@ values, allowing a slightly cheaper "< 0" comparison, and (2) it started
 with the counter half full, correcting the slight lopsidedness of my lines.
 
 The graphics class inspired me to write a 3D game library called Arc3D
-in 1990.  I used it to create a pair of demos: "Not Modulae", which
-animated several 3D shapes on the screen, including a pair of ships from
+in 1990.  I used it to create a
+[pair of demos](https://www.youtube.com/watch?v=Oe0x425Yiq4): "Not Modulae",
+which animated several 3D shapes on the screen, including a pair of ships from
 Elite; and "Not Stellar 7", a graphics demo that let you drive around
 (and, sadly, through) some tanks from Stellar 7.  The Arc3D library was
 written for the IIgs, in 65816 assembly, and used the super-hi-res screen.
@@ -133,16 +134,18 @@ approach, with a bit of variation on the Y-lookup table -- their table is
 only 24 bytes (1/8th of the screen), and they use a quick "add 4 to the
 high byte" 7 out of every eight lines.  I tried applying this to my code,
 but it turned out that just using a full lookup table was a tiny bit faster.
+Their code was about the same as mine, but somewhat faster because they
+treated the screen as monochrome rather than color.
 
 Next I looked at Stellar 7, one of my earliest inspirations.  I scanned
 through some files with CiderPress, looking for anything line-draw-esque.
-(If you spend enough time drawing lines you start to see patterns.)
-After about five minutes I found the code, in the same file as this
+(If you spend enough time drawing lines you start to see patterns in the
+code.)  After about five minutes I found the code, in the same file as this
 gigantic unrolled division routine.  But as I started to dig into the code
 I noticed that it was using a count oddly, and this one function was...
 HOLY CATS he did run-slicing.
 
-And he did it big.  There are several line functions, all of them padded
+And he did it big.  There are several line-draw functions, all of them padded
 out to live on a single page (so that none of the branches cross page
 boundaries, which costs an extra cycle).  It has the usual special cases --
 simple horizontal and vertical lines -- and the usual split between
@@ -163,7 +166,7 @@ healthy 187 bytes long, and might take 240 cycles to run.  For short
 lines and mostly-vertical lines it might have been more efficicent to skip
 the division and just use a run-length implementation, but the ability to
 set multiple bits at once for mostly-horizontal lines is a huge win.  It's
-a fair bet that the code in Stellar 7 is the fastest line drawing
+a fair bet that the code in Stellar 7 has the fastest line drawing
 implementation for the Apple II.  (Of course, I haven't looked at Arcticfox,
 the sequel...)
 
