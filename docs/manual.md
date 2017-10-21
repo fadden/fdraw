@@ -538,25 +538,25 @@ fast.
 Circles are computed with Bresenham's algorithm.  The idea is to compute
 one octant of the circle with this bit of magic:
 
-void drawOutline(int cx, int cy, int rad) {
-    int x, y, d;
+    void drawOutline(int cx, int cy, int rad) {
+        int x, y, d;
 
-    d = 1 - rad;
-    x = 0;
-    y = rad;
+        d = 1 - rad;
+        x = 0;
+        y = rad;
 
-    while (x <= y) {
-        plot(cx, cy, x, y);
+        while (x <= y) {
+            plot(cx, cy, x, y);
 
-        if (d < 0) {
-            d = d + (x * 4) + 3;
-        } else {
-            d = d + ((x - y) * 4) + 5;
-            y--;
+            if (d < 0) {
+                d = d + (x * 4) + 3;
+            } else {
+                d = d + ((x - y) * 4) + 5;
+                y--;
+            }
+            x++;
         }
-        x++;
     }
-}
 
 Then each X/Y coordinate is plotted eight times:
 
@@ -607,31 +607,31 @@ make it 11 units wide and 21 units high.  To draw that in the middle of
 the screen, we'd set CX=139 and CY=95, then draw lines offset from that
 by +/- 5 in X and +/- 10 in Y:
 
-  HPLOT CX-5,CY-10 TO CX-5,CY+10 : REM LEFT  
-  HPLOT CX-5,CY-10 TO CX+5,CY-10 : REM TOP  
-  HPLOT CX+5,CY-10 TO CX+5,CY+10 : REM RIGHT  
-  HPLOT CX-5,CY+10 TO CX+5,CY+10 : REM BOTTOM  
-  HPLOT CX-5,CY-10 to CX+5,CY+10 : SLASH  
-  HPLOT CX+5,CY-10 to CX-5,CY+10 : BACKSLASH  
+    HPLOT CX-5,CY-10 TO CX-5,CY+10 : REM LEFT  
+    HPLOT CX-5,CY-10 TO CX+5,CY-10 : REM TOP  
+    HPLOT CX+5,CY-10 TO CX+5,CY+10 : REM RIGHT  
+    HPLOT CX-5,CY+10 TO CX+5,CY+10 : REM BOTTOM  
+    HPLOT CX-5,CY-10 to CX+5,CY+10 : SLASH  
+    HPLOT CX+5,CY-10 to CX-5,CY+10 : BACKSLASH  
 
 Six lines, each of which needs four coordinates.  We'd need 24 bytes
 to store that in an integer array.
 
 Suppose instead we identified the four vertices, and numbered them:
 
-  #0 CX-5,CY-10  
-  #1 CX+5,CY-10  
-  #2 CX-5,CY+10  
-  #3 CX+5,CY+10
+    #0 CX-5,CY-10  
+    #1 CX+5,CY-10  
+    #2 CX-5,CY+10  
+    #3 CX+5,CY+10
 
 and then created a list of line segments using the vertex indices:
 
-  HPLOT #0 TO #2  
-  HPLOT #0 to #1  
-  HPLOT #1 TO #3  
-  HPLOT #2 TO #3  
-  HPLOT #0 TO #3  
-  HPLOT #1 TO #2  
+    HPLOT #0 TO #2  
+    HPLOT #0 to #1  
+    HPLOT #1 TO #3  
+    HPLOT #2 TO #3  
+    HPLOT #0 TO #3  
+    HPLOT #1 TO #2  
 
 This requires (4 * 2) + (6 * 2) = 20 bytes, for a small savings.  The real
 value in the approach is that it separates the description of the shape
@@ -750,8 +750,8 @@ The Amperfdraw API is somewhat minimal and could be improved.  Taking a
 cue from Beagle Graphics, the rect and circle calls should probably look
 more like:
 
-  &DRAW width,height [AT left,top]
-  &COS radius [AT left,top]
+    &DRAW width,height [AT left,top]
+    &COS radius [AT left,top]
 
 The "&AT" coordinate, currently only used by &PLOT, should be more
 widely used.  Not only is it more convenient, it's also slightly faster,
@@ -821,26 +821,26 @@ line at X=17.  There's already a green dot at X=15, which gives us a
 bit pattern of 00000010.  (Bits are "backwards", i.e. the bit on the
 right is the pixel on the left.)
 
-  LDY byteoffset                      X=2
-  LDX bitoffset                       X=3
-  LDA bitmask,x                       A=0x88 (10001000)
-  STA <andmask              
-  LDA oddevencolor,y   4 cyc          A=0x2a (00101010)
-  EOR (hbasl),y        5 cyc          A=0x28 (00101010 ^ 00000010 = 00101000)
-  AND <andmask         3 cyc          A=0x08 (00101000 & 10001000 = 00001000)
-  EOR (hbasl),y        5 cyc          A=0x0a (00001000 ^ 00000010 = 00001010)
-  STA (hbasl),y        6 cyc
+    LDY byteoffset                    X=2
+    LDX bitoffset                     X=3
+    LDA bitmask,x                     A=0x88 (10001000)
+    STA <andmask              
+    LDA oddevencolor,y   4 cyc        A=0x2a (00101010)
+    EOR (hbasl),y        5 cyc        A=0x28 (00101010 ^ 00000010 = 00101000)
+    AND <andmask         3 cyc        A=0x08 (00101000 & 10001000 = 00001000)
+    EOR (hbasl),y        5 cyc        A=0x0a (00001000 ^ 00000010 = 00001010)
+    STA (hbasl),y        6 cyc
 
 As a second example, here's how we plot a black1 (hcolor=4) point at X=6
 when there's a purple point (hcolor=2) at X=0 (00000001).
 
-  LDA bitmask,x                       A=0xc0 (11000000)
-  STA <andmask              
-  LDA oddevencolor,y   4 cyc          A=0x80 (10000000)
-  EOR (hbasl),y        5 cyc          A=0x81 (10000000 ^ 10000001 = 00000001)
-  AND <andmask         3 cyc          A=0x81 (00000001 & 11000000 = 00000000)
-  EOR (hbasl),y        5 cyc          A=0x81 (00000000 ^ 10000001 = 10000001)
-  STA (hbasl),y        6 cyc
+    LDA bitmask,x                     A=0xc0 (11000000)
+    STA <andmask              
+    LDA oddevencolor,y   4 cyc        A=0x80 (10000000)
+    EOR (hbasl),y        5 cyc        A=0x81 (10000000 ^ 10000001 = 00000001)
+    AND <andmask         3 cyc        A=0x81 (00000001 & 11000000 = 00000000)
+    EOR (hbasl),y        5 cyc        A=0x81 (00000000 ^ 10000001 = 10000001)
+    STA (hbasl),y        6 cyc
 
 Note the purple pixel is still set, but now the high bit is as well,
 changing it to blue.
@@ -876,9 +876,9 @@ For 3D games like Stellar 7 or Elite, which essentially draw thin
 monochromatic lines, we can drop the color mask and just set the bit on
 the screen.  Plotting a pixel is then simply:
 
-  LDA (hbasl),y        5 cyc
-  ORA <bitmask         3 cyc
-  STA (hbasl),y        6 cyc
+    LDA (hbasl),y        5 cyc
+    ORA <bitmask         3 cyc
+    STA (hbasl),y        6 cyc
 
 This cuts the cycle count from 23 to 14.  It's also not necessary to
 worry about the high bit, which can save a few cycles when shifting
