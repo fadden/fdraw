@@ -31,6 +31,7 @@ speed, one that reduces size.
 
 
 <div id='amperapi'/>
+
 ## Applesoft BASIC Ampersand API (Amperfdraw) ##
 
 The ampersand API acts as a bridge between Applesoft BASIC and fdraw.
@@ -82,6 +83,7 @@ ampersand utilities in Beagle Graphics.
 
 
 <div id='rawapi'/>
+
 ## Raw API ##
 
 The code is assembled at $6000 by default.  The program's length includes
@@ -159,6 +161,7 @@ own code, but understand that fdraw functions will overwrite them.
 
 
 <div id='nutshell'/>
+
 ## Apple II Hi-res in a Nutshell ##
 
 This is a quick overview of the Apple II hi-res graphics architecture
@@ -241,6 +244,7 @@ HIRES  | $c057 | -16297  | show hi-res screen
 
 
 <div id='building'/>
+
 ## Building the Code ##
 
 The main fdraw code is written for the Merlin assembler (specifically
@@ -314,6 +318,7 @@ code would increase the per-pixel cost by 15-20%.
 
 
 <div id='notes'/>
+
 ## Notes on the Drawing Functions ##
 
 ### Screen Clear ###
@@ -695,6 +700,7 @@ The key speed advantage is the removal of the Applesoft overhead.
 
 
 <div id='ideas'/>
+
 ## Enhancement Ideas ##
 
 Some ideas for future versions of fdraw.
@@ -781,6 +787,7 @@ lines are drawn in "xdraw" mode.
 
 
 <div id='additional-notes'/>
+
 # Additional Notes #
 
 Getting into the gory details here.
