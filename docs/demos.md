@@ -64,7 +64,7 @@ The EXTRAS directory has some additional software that isn't "officially"
 part of fdraw, but may be of use.
 
 NOTE: some of these assume fdraw and amperfdraw are already loaded, and
-will hang if not.  Run DEMO and hit <esc> before running these.
+will hang if not.  Run DEMO and hit &lt;esc&gt; before running these.
 
 * ARRAY.EXAMPLE : The &PLOT example from the documentation.
 
@@ -109,12 +109,12 @@ Applesoft BASIC.  To generate strings, add a series of statements that set
 variables and call 20000 to add rendered strings to the set.  The relevant
 variables are:
 
-  S$ - string to add
-  DW - desired width, in pixels, of a cell 1.0 units wide
-  DH - desired height, in pixels of a cell 2.0 units high (ascent + descent)
-  IS% - inter-character spacing, in pixels
-  SW% - width of the space character (usually same as DW)
-  MO% - monospace flag; if nonzero, all chars are treated as 1.0 units wide
+ * S$ - string to add
+ * DW - desired width, in pixels, of a cell 1.0 units wide
+ * DH - desired height, in pixels of a cell 2.0 units high (ascent + descent)
+ * IS% - inter-character spacing, in pixels
+ * SW% - width of the space character (usually same as DW)
+ * MO% - monospace flag; if nonzero, all chars are treated as 1.0 units wide
 
 Remove the REM from the start of line 1010 to enable the character viewer.
 At present only a couple of lower-case letters are defined.
@@ -125,26 +125,26 @@ At present only a couple of lower-case letters are defined.
 The LINEFONT program outputs a binary blob that can be passed to
 the &PLOT array-draw function.  The file structure is:
 
-+0  byte - number of array sets in the list.
-+1  2 bytes * N - table of offsets to individual array sets.  One of
-    these per array set.  The value is the offset from the start of the
-    file.
+    +0  byte - number of array sets in the list.
+    +1  2 bytes * N - table of offsets to individual array sets.  One of
+        these per array set.  The value is the offset from the start of the
+        file.
 
-(2N+1) array set #1:
-+0  byte - number of vertices (0-127)
-+1  byte - number of index pairs (0-127)
-+2  2 bytes * V - vertices (values are signed X/Y)
-+X  2 bytes * I - index pairs (values are 0-127)
+    (2N+1) array set #1:
+    +0  byte - number of vertices (0-127)
+    +1  byte - number of index pairs (0-127)
+    +2  2 bytes * V - vertices (values are signed X/Y)
+    +X  2 bytes * I - index pairs (values are 0-127)
 
 To display phrase #3, you would get the 16-bit value from the offset
-table with PEEK(start + 1 + 3 * 2) + PEEK(start + 2 + 3 * 2) * 256.
-You get the number of vertices from PEEK(start + offset), and the number
-of index pairs from PEEK(start + offset + 1).  Finally, call the array-draw
+table with `PEEK(start + 1 + 3 * 2) + PEEK(start + 2 + 3 * 2) * 256`.
+You get the number of vertices from `PEEK(start + offset)`, and the number
+of index pairs from `PEEK(start + offset + 1)`.  Finally, call the array-draw
 function with:
 
- VA = start + offset + 2
- IA = VA + num_vertices * 2
- &PLOT va, ia, num_index_pairs
+    VA = start + offset + 2
+    IA = VA + num_vertices * 2
+    &PLOT va, ia, num_index_pairs
 
 The 0,0 point in the blob is in the center of the phrase horizontally
 (which allows a maximum width of 255 pixels), and at the font baseline
